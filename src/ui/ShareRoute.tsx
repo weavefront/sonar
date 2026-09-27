@@ -3,6 +3,7 @@ import { useT } from '../i18n';
 import { isValidAddress } from '../wallet/address';
 import { Shell } from './Shell';
 import { DriveBrowser } from './DriveBrowser';
+import { hashQuery } from './hashLocation';
 
 /**
  * Landing page for a shared-folder link (`/share/:driveId/:owner/:folderId`) — reachable with no
@@ -22,8 +23,7 @@ export function ShareRoute() {
   // Deliberately NOT `window.location.search`: with hash-based routing (see main.tsx), the query
   // string ShareDialog appends lives *inside* the `#` fragment — `.../#/share/x/y/z?scope=folder`
   // — which `location.search` can never see, since that only ever reflects what's before the `#`.
-  const hashQuery = window.location.hash.split('?')[1] ?? '';
-  const subfoldersHidden = new URLSearchParams(hashQuery).get('scope') === 'folder';
+  const subfoldersHidden = new URLSearchParams(hashQuery(window.location.hash)).get('scope') === 'folder';
 
   if (!isValidAddress(owner)) {
     return (
