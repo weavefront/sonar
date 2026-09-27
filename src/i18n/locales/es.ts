@@ -218,6 +218,8 @@ export const es: Messages = {
 
   'download.selectAll': 'Seleccionar todo',
   'download.selectItem': 'Seleccionar {name}',
+  'download.downloadAll': 'Descargar todo',
+  'download.waitForLoad': 'Disponible cuando esta carpeta termine de cargar',
   'download.panelTitle': 'Descargas',
   'download.collecting': 'Preparando…',
   'download.fetchingProgress': 'Descargando {completed} de {total} archivos…',

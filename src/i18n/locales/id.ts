@@ -219,6 +219,8 @@ export const id: Messages = {
 
   'download.selectAll': 'Pilih semua',
   'download.selectItem': 'Pilih {name}',
+  'download.downloadAll': 'Unduh semua',
+  'download.waitForLoad': 'Tersedia setelah folder ini selesai dimuat',
   'download.panelTitle': 'Unduhan',
   'download.collecting': 'Menyiapkan…',
   'download.fetchingProgress': 'Mengunduh {completed} dari {total} berkas…',

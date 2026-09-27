@@ -219,6 +219,8 @@ export const vi: Messages = {
 
   'download.selectAll': 'Chọn tất cả',
   'download.selectItem': 'Chọn {name}',
+  'download.downloadAll': 'Tải xuống tất cả',
+  'download.waitForLoad': 'Có thể dùng khi thư mục này tải xong',
   'download.panelTitle': 'Tải xuống',
   'download.collecting': 'Đang chuẩn bị…',
   'download.fetchingProgress': 'Đang tải {completed}/{total} tệp…',

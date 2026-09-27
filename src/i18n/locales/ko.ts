@@ -216,6 +216,8 @@ export const ko: Messages = {
 
   'download.selectAll': '전체 선택',
   'download.selectItem': '{name} 선택',
+  'download.downloadAll': '모두 다운로드',
+  'download.waitForLoad': '이 폴더를 다 불러오면 사용할 수 있습니다',
   'download.panelTitle': '다운로드',
   'download.collecting': '준비 중…',
   'download.fetchingProgress': '{total}개 중 {completed}개 다운로드 중…',

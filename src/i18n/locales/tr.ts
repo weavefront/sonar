@@ -218,6 +218,8 @@ export const tr: Messages = {
 
   'download.selectAll': 'Tümünü seç',
   'download.selectItem': '{name} öğesini seç',
+  'download.downloadAll': 'Tümünü indir',
+  'download.waitForLoad': 'Bu klasörün yüklenmesi bitince kullanılabilir',
   'download.panelTitle': 'İndirmeler',
   'download.collecting': 'Hazırlanıyor…',
   'download.fetchingProgress': '{total} dosyadan {completed} tanesi indiriliyor…',

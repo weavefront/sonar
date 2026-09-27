@@ -12,7 +12,7 @@ interface Persisted {
   tileSize: TileSize;
 }
 
-const DEFAULTS: Persisted = { viewMode: 'list', tileSize: 'md' };
+const DEFAULTS: Persisted = { viewMode: 'icon', tileSize: 'md' };
 
 function isViewMode(v: unknown): v is ViewMode {
   return v === 'list' || v === 'icon' || v === 'dense';
@@ -46,7 +46,7 @@ export function persistViewPreference(value: Persisted) {
 }
 
 /**
- * How the file list is laid out — List (today's default), Icon (large image tiles), or Dense
+ * How the file list is laid out — List, Icon (image tiles; the default, at medium size), or Dense
  * (compact text-only rows) — plus Icon view's tile size. Persisted across reloads the same way
  * `wallet/store.ts` persists the connected address: a single colon-namespaced localStorage key,
  * read once at mount and written through on every change, silently no-op'ing if storage throws.

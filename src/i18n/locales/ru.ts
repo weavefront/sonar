@@ -218,6 +218,8 @@ export const ru: Messages = {
 
   'download.selectAll': 'Выбрать все',
   'download.selectItem': 'Выбрать {name}',
+  'download.downloadAll': 'Скачать всё',
+  'download.waitForLoad': 'Станет доступно, когда папка загрузится',
   'download.panelTitle': 'Скачивания',
   'download.collecting': 'Подготовка…',
   'download.fetchingProgress': 'Скачивание {completed} из {total} файлов…',

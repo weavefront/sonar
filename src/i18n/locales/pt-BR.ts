@@ -218,6 +218,8 @@ export const ptBR: Messages = {
 
   'download.selectAll': 'Selecionar tudo',
   'download.selectItem': 'Selecionar {name}',
+  'download.downloadAll': 'Baixar tudo',
+  'download.waitForLoad': 'Disponível quando esta pasta terminar de carregar',
   'download.panelTitle': 'Downloads',
   'download.collecting': 'Preparando…',
   'download.fetchingProgress': 'Baixando {completed} de {total} arquivos…',

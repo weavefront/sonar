@@ -217,6 +217,8 @@ export const ja: Messages = {
 
   'download.selectAll': 'すべて選択',
   'download.selectItem': '{name}を選択',
+  'download.downloadAll': 'すべてダウンロード',
+  'download.waitForLoad': 'このフォルダーの読み込みが完了すると利用できます',
   'download.panelTitle': 'ダウンロード',
   'download.collecting': '準備中…',
   'download.fetchingProgress': '{total}件中{completed}件をダウンロード中…',

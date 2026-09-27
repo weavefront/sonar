@@ -89,13 +89,31 @@ function dedupe(path: string, used: Set<string>): string {
   return candidate;
 }
 
-function collectFolder(tree: DriveTree, folder: FolderEntity, prefix: string, out: DownloadItem[], used: Set<string>) {
+export interface SelectionOptions {
+  /**
+   * Whether hidden files and folders nested inside a selected folder are included. Defaults to
+   * true. A share-link visitor never sees hidden items, so their downloads pass false: a zip
+   * shouldn't contain what the page didn't show.
+   */
+  includeHidden?: boolean;
+}
+
+function collectFolder(
+  tree: DriveTree,
+  folder: FolderEntity,
+  prefix: string,
+  out: DownloadItem[],
+  used: Set<string>,
+  includeHidden: boolean,
+) {
   for (const file of tree.childFiles.get(folder.entityId) ?? []) {
     if (!file.dataTxId) continue; // still confirming, or a body that never resolved — nothing to fetch
+    if (!includeHidden && file.isHidden) continue;
     out.push({ file, zipPath: dedupe(`${prefix}${safeSegment(file.name)}`, used) });
   }
   for (const child of tree.childFolders.get(folder.entityId) ?? []) {
-    collectFolder(tree, child, `${prefix}${safeSegment(child.name)}/`, out, used);
+    if (!includeHidden && child.isHidden) continue;
+    collectFolder(tree, child, `${prefix}${safeSegment(child.name)}/`, out, used, includeHidden);
   }
 }
 
@@ -104,7 +122,11 @@ function collectFolder(tree: DriveTree, folder: FolderEntity, prefix: string, ou
  * path; a checked folder recurses into `folderName/.../fileName`. Pure tree traversal — no network
  * calls, since the whole hierarchy is already synced client-side.
  */
-export function filesUnderSelection(items: readonly SelectionItem[], tree: DriveTree): DownloadItem[] {
+export function filesUnderSelection(
+  items: readonly SelectionItem[],
+  tree: DriveTree,
+  { includeHidden = true }: SelectionOptions = {},
+): DownloadItem[] {
   const out: DownloadItem[] = [];
   const used = new Set<string>();
   for (const item of items) {
@@ -112,7 +134,7 @@ export function filesUnderSelection(items: readonly SelectionItem[], tree: Drive
       if (!item.file.dataTxId) continue;
       out.push({ file: item.file, zipPath: dedupe(safeSegment(item.file.name), used) });
     } else {
-      collectFolder(tree, item.folder, `${safeSegment(item.folder.name)}/`, out, used);
+      collectFolder(tree, item.folder, `${safeSegment(item.folder.name)}/`, out, used, includeHidden);
     }
   }
   return out;

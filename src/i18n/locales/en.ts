@@ -256,6 +256,8 @@ export const en = {
   // ── Batch download ─────────────────────────────────────────────────────────
   'download.selectAll': 'Select all',
   'download.selectItem': 'Select {name}',
+  'download.downloadAll': 'Download all',
+  'download.waitForLoad': 'Available once this folder finishes loading',
   'download.panelTitle': 'Downloads',
   'download.collecting': 'Preparing…',
   'download.fetchingProgress': 'Downloading {completed} of {total} files…',

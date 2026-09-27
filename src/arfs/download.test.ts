@@ -124,6 +124,37 @@ describe('filesUnderSelection', () => {
   });
 });
 
+describe('filesUnderSelection — hidden items', () => {
+  const hiddenTree = () =>
+    buildTree([
+      drive(),
+      folder('photos', 'root', { name: 'photos' }),
+      file('shown', 'photos', { name: 'beach.jpg' }),
+      file('secret', 'photos', { name: 'draft.jpg', isHidden: true }),
+      folder('old', 'photos', { name: 'old', isHidden: true }),
+      file('buried', 'old', { name: 'buried.jpg' }),
+    ]);
+  const photos = (tree: ReturnType<typeof hiddenTree>): SelectionItem[] => [
+    { kind: 'folder', folder: tree.foldersById.get('photos')! },
+  ];
+
+  it('includes hidden files and folders by default, as the owner’s own downloads always have', () => {
+    const tree = hiddenTree();
+    expect(filesUnderSelection(photos(tree), tree).map((i) => i.zipPath).sort()).toEqual([
+      'photos/beach.jpg',
+      'photos/draft.jpg',
+      'photos/old/buried.jpg',
+    ]);
+  });
+
+  it('leaves out hidden files, and everything under hidden folders, when asked (share links)', () => {
+    const tree = hiddenTree();
+    expect(filesUnderSelection(photos(tree), tree, { includeHidden: false }).map((i) => i.zipPath)).toEqual([
+      'photos/beach.jpg',
+    ]);
+  });
+});
+
 describe('filesUnderSelection — hostile names', () => {
   it('never emits a path-traversal segment, even from folders literally named ".."', () => {
     // A public drive anyone can share: folders "..", "..", then a file ".bashrc". This used to

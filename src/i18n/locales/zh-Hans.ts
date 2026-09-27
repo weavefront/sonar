@@ -211,6 +211,8 @@ export const zhHans: Messages = {
 
   'download.selectAll': '全选',
   'download.selectItem': '选择{name}',
+  'download.downloadAll': '全部下载',
+  'download.waitForLoad': '此文件夹加载完成后即可使用',
   'download.panelTitle': '下载',
   'download.collecting': '正在准备…',
   'download.fetchingProgress': '正在下载 {completed}/{total} 个文件…',

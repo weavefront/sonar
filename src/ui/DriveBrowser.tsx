@@ -234,16 +234,25 @@ export function DriveBrowser({
     setCheckedIds(allChecked ? new Set() : new Set(checkableEntries.map((e) => e.kind + e.id)));
   };
 
-  const downloadSelected = () => {
-    if (!tree || downloadActive) return;
-    const items: SelectionItem[] = entries
-      .filter((e) => checkedIds.has(e.kind + e.id))
-      .map((e) => (e.kind === 'file' ? { kind: 'file' as const, file: e.file } : { kind: 'folder' as const, folder: e.folder }));
-    if (!items.length) return;
+  const downloadEntries = (list: readonly Entry[]) => {
+    if (!tree || downloadActive) return false;
+    const items: SelectionItem[] = list.map((e) =>
+      e.kind === 'file' ? { kind: 'file' as const, file: e.file } : { kind: 'folder' as const, folder: e.folder },
+    );
+    if (!items.length) return false;
     const zipName = trail[trail.length - 1]?.name ?? tree.drive?.name ?? t('driveBrowser.drive');
-    void startDownload(items, tree, driveId, zipName);
-    setCheckedIds(new Set());
+    void startDownload(items, tree, driveId, zipName, { includeHidden: !readOnly });
+    return true;
   };
+
+  const downloadSelected = () => {
+    if (downloadEntries(entries.filter((e) => checkedIds.has(e.kind + e.id)))) setCheckedIds(new Set());
+  };
+
+  // A share visitor's one-click "everything here". `checkableEntries` is already scoped the way
+  // the page is: without subfolders for a `?scope=folder` link, and without hidden or unresolved
+  // items, so the zip holds exactly what the visitor can see (recursing into folders if shown).
+  const downloadAll = () => downloadEntries(checkableEntries);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const virtualizer = useVirtualizer({
@@ -337,6 +346,19 @@ export function DriveBrowser({
               }}
             />
             <div className="flex-1" />
+            {readOnly && checkedIds.size === 0 && (
+              <button
+                onClick={downloadAll}
+                // Disabled mid-sync: the tree may not hold every file yet, and a zip that silently
+                // misses some is worse than a few seconds' wait.
+                disabled={downloadActive || syncing || !checkableEntries.length}
+                title={syncing ? t('download.waitForLoad') : undefined}
+                className="flex items-center gap-2 h-9 px-4 rounded-lg accent-fill text-sm font-semibold shrink-0 disabled:opacity-50 hover:opacity-90 transition-opacity"
+              >
+                <DownloadIcon className="w-4 h-4" />
+                {t('download.downloadAll')}
+              </button>
+            )}
             {checkedIds.size > 0 && (
               <button
                 onClick={downloadSelected}

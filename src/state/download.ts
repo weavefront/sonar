@@ -6,7 +6,7 @@
  */
 
 import { create } from 'zustand';
-import { downloadAsZip, filesUnderSelection, saveZipStream, type SelectionItem } from '../arfs/download';
+import { downloadAsZip, filesUnderSelection, saveZipStream, type SelectionItem, type SelectionOptions } from '../arfs/download';
 import type { AbortToken } from '../arfs/sync';
 import type { DriveTree } from '../arfs/tree';
 import { usePrivateDrives } from './privateDrives';
@@ -25,7 +25,13 @@ export interface DownloadJob {
 
 interface DownloadQueueState {
   job: DownloadJob | null;
-  start: (items: readonly SelectionItem[], tree: DriveTree, driveId: string, zipName: string) => Promise<void>;
+  start: (
+    items: readonly SelectionItem[],
+    tree: DriveTree,
+    driveId: string,
+    zipName: string,
+    opts?: SelectionOptions,
+  ) => Promise<void>;
   cancel: () => void;
   dismiss: () => void;
 }
@@ -38,14 +44,14 @@ const ACTIVE_STATUSES: readonly DownloadStatus[] = ['collecting', 'fetching', 's
 export const useDownloadQueue = create<DownloadQueueState>((set, get) => ({
   job: null,
 
-  async start(items, tree, driveId, zipName) {
+  async start(items, tree, driveId, zipName, opts) {
     const current = get().job;
     if (current && ACTIVE_STATUSES.includes(current.status)) return; // one job at a time
 
     const signal: AbortToken = { aborted: false };
     activeSignal = signal;
 
-    const resolved = filesUnderSelection(items, tree);
+    const resolved = filesUnderSelection(items, tree, opts);
     const totalBytes = resolved.reduce((sum, item) => sum + item.file.size, 0);
     set({
       job: {

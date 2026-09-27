@@ -219,6 +219,8 @@ export const de: Messages = {
 
   'download.selectAll': 'Alle auswählen',
   'download.selectItem': '{name} auswählen',
+  'download.downloadAll': 'Alle herunterladen',
+  'download.waitForLoad': 'Verfügbar, sobald dieser Ordner fertig geladen ist',
   'download.panelTitle': 'Downloads',
   'download.collecting': 'Wird vorbereitet…',
   'download.fetchingProgress': '{completed} von {total} Dateien werden heruntergeladen…',

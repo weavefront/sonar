@@ -34,8 +34,8 @@ beforeEach(() => {
 });
 
 describe('readViewPreference', () => {
-  it('defaults to list view at medium size when nothing is stored', () => {
-    expect(readViewPreference()).toEqual({ viewMode: 'list', tileSize: 'md' });
+  it('defaults to icon view at medium size when nothing is stored', () => {
+    expect(readViewPreference()).toEqual({ viewMode: 'icon', tileSize: 'md' });
   });
 
   it('round-trips a value written by persistViewPreference', () => {
@@ -45,11 +45,11 @@ describe('readViewPreference', () => {
 
   it('falls back to defaults for corrupt JSON', () => {
     localStorage.setItem(STORAGE_KEY, 'not json');
-    expect(readViewPreference()).toEqual({ viewMode: 'list', tileSize: 'md' });
+    expect(readViewPreference()).toEqual({ viewMode: 'icon', tileSize: 'md' });
   });
 
   it('falls back per-field for an unrecognized value', () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ viewMode: 'bogus', tileSize: 'sm' }));
-    expect(readViewPreference()).toEqual({ viewMode: 'list', tileSize: 'sm' });
+    expect(readViewPreference()).toEqual({ viewMode: 'icon', tileSize: 'sm' });
   });
 });
