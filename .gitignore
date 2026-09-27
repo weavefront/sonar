@@ -14,3 +14,6 @@ npm-debug.log*
 
 # Personal Claude Code permissions — local by convention
 .claude/settings.local.json
+
+# Personal files kept out of the repo
+happy_face.pdf
