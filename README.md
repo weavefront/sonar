@@ -172,7 +172,17 @@ client-zip.
 - AES-256-CTR for private files over 100 MiB. Sonar encrypts every file with AES-256-GCM, and each
   transaction's `Cipher` tag records which algorithm was used, so ArDrive still decrypts it.
 
-## Credits
+## License
 
-- "arweave.eth" is set in **Basteleur** by Keussel, under the SIL Open Font License 1.1.
-- The logo is set in **Protest Guerrilla**, from Google Fonts.
+Sonar is dedicated to the **public domain** under [CC0 1.0 Universal](LICENSE). You can copy,
+modify, distribute and use it for any purpose, including commercially, without asking permission
+or giving credit.
+
+**Exceptions.** Two fonts are embedded in the source and stay under their own license, the
+[SIL Open Font License 1.1](https://openfontlicense.org). CC0 does not cover them:
+
+- **Basteleur** by Keussel, embedded in `src/styles.css` for the "by arweave.eth" byline.
+- **Protest Guerrilla** by Octavio Pardo, a subset embedded in the favicon in `index.html`. The
+  logo loads the full font from Google Fonts.
+
+Dependencies installed through npm are not part of this repository. Each keeps its own license.
