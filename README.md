@@ -92,6 +92,10 @@ not by this client. No amount of client concurrency fixes that. Later visits are
 - **An unreadable body never hides a file.** If a metadata body can't be fetched, the file is still
   listed and marked unavailable. Each later sync retries it through a second gateway. Some real
   drives have metadata that gateways genuinely can't serve, and showing that is the honest result.
+- **An empty answer needs a second opinion.** Gateway indexes aren't equally complete, and an
+  incomplete one returns a valid *empty* result, not an error. Sonar only accepts "nothing here"
+  once every GraphQL gateway agrees. permagate.io is the primary GraphQL gateway, because
+  arweave.net's index was found missing whole drives.
 - **Old data is fine.** Mainnet still serves `ArFS 0.11` drives next to `0.15` ones, often without
   a `Drive-Privacy` tag, and Sonar reads both.
 - **Tags match ArDrive byte for byte.** Write-path tags were checked against `ardrive-core-js`.

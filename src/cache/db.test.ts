@@ -1,5 +1,6 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, describe, expect, it } from 'vitest';
+import { deleteDB, openDB } from 'idb';
 import { __resetCacheForTests, cache } from './db';
 
 const V = 1;
@@ -58,5 +59,29 @@ describe('local thumbnail cache', () => {
     await cache.putLocalThumb('tx-1', new Blob(['new algorithm']), 2);
     expect(await (await cache.getLocalThumb('tx-1', 2))!.text()).toBe('new algorithm');
     expect(await cache.getLocalThumb('tx-1', 1)).toBeUndefined();
+  });
+});
+
+describe('upgrading from version 2', () => {
+  it('forgets sync watermarks but keeps cached bodies', async () => {
+    // A v2 database as a browser that synced under the old gateway order would have it.
+    __resetCacheForTests();
+    await deleteDB('swiftdrive');
+    const v2 = await openDB('swiftdrive', 2, {
+      upgrade(db) {
+        db.createObjectStore('txBodies', { keyPath: 'txId' });
+        const entities = db.createObjectStore('entities', { keyPath: 'metadataTxId' });
+        entities.createIndex('by-drive', 'driveId');
+        entities.createIndex('by-owner', 'owner');
+        db.createObjectStore('syncState', { keyPath: 'key' });
+        db.createObjectStore('localThumbs', { keyPath: 'dataTxId' });
+      },
+    });
+    await v2.put('syncState', { key: 'drive:abc', lastHeight: 1_500_000, updatedAt: 0 });
+    await v2.put('txBodies', { txId: 'tx-1', body: '{"name":"a.txt"}' });
+    v2.close();
+
+    expect(await cache.getSync('drive:abc')).toBeUndefined();
+    expect(await cache.getBody('tx-1')).toBe('{"name":"a.txt"}');
   });
 });

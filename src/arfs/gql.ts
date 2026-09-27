@@ -11,12 +11,25 @@
  *   2. Failover + backoff retry, because public gateways are individually flaky.
  *   3. Block-sharded pagination, so a drive's history can be walked in parallel instead of as a
  *      serial cursor chase.
+ *
+ * A fourth concern is correctness rather than speed: gateways' indexes are not equally complete,
+ * and an incomplete one answers with a perfectly valid *empty* result, not an error. See
+ * `QueryOptions.isEmpty`.
  */
 
 import type { GqlEdge } from './types';
 
-/** Verified GraphQL-compatible during planning. Order matters: index 0 is the primary. */
-export const DEFAULT_GATEWAYS = ['https://arweave.net', 'https://permagate.io'] as const;
+/**
+ * Verified GraphQL-compatible. Order matters: index 0 is the primary.
+ *
+ * `permagate.io` is primary because `arweave.net`'s GraphQL index was found badly incomplete
+ * (2026-09-27, checked live from the browser): for one owner it listed 10 drives where
+ * `permagate.io` listed 52, and for one of that owner's drives it returned *zero* transactions
+ * where `permagate.io` and goldsky each returned all 10. Those were successful, well-formed
+ * responses, so failover never kicked in and the drive rendered as "This folder is empty".
+ * `arweave.net` stays as the fallback and the empty-result second opinion.
+ */
+export const DEFAULT_GATEWAYS = ['https://permagate.io', 'https://arweave.net'] as const;
 
 /**
  * Gateways that actually serve transaction *data*, which is a strictly smaller set than those
@@ -63,6 +76,19 @@ interface GqlResponse<T> {
   errors?: { message: string }[];
 }
 
+export interface QueryOptions<T> {
+  /**
+   * Marks a successful response as "found nothing". An empty answer is then only accepted once
+   * every other gateway has either agreed or failed; the first non-empty answer wins instead.
+   *
+   * An incomplete index doesn't fail, it returns an empty result, and hedging/failover only react
+   * to failures. Without a second opinion, one gateway missing a drive makes that drive look
+   * empty. The extra request only happens when a result is empty, so the common case costs
+   * nothing, and a genuinely empty steady-state sync costs one extra query.
+   */
+  isEmpty?: (data: T) => boolean;
+}
+
 export class GqlError extends Error {}
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -99,7 +125,7 @@ export class ArweaveGql {
   }
 
   /** Run a query, hedging across gateways and retrying with backoff. */
-  async query<T>(query: string): Promise<T> {
+  async query<T>(query: string, opts: QueryOptions<T> = {}): Promise<T> {
     let lastError: unknown;
 
     for (let attempt = 0; attempt <= this.retries; attempt++) {
@@ -110,7 +136,9 @@ export class ArweaveGql {
       const ordered = this.gateways.map((_, i) => this.gateways[(i + attempt) % this.gateways.length]!);
 
       try {
-        return await this.hedge<T>(ordered, query, controller.signal);
+        const won = await this.hedge<T>(ordered, query, controller.signal);
+        if (!opts.isEmpty?.(won.data)) return won.data;
+        return await this.secondOpinion(ordered, won, query, opts.isEmpty, controller.signal);
       } catch (err) {
         lastError = err;
         if (attempt < this.retries) await sleep(300 * 2 ** attempt);
@@ -123,11 +151,39 @@ export class ArweaveGql {
   }
 
   /**
+   * The winning answer was empty: ask the gateways that didn't produce it, in order, and take the
+   * first non-empty answer. Their failures are ignored, because we already hold a valid (empty)
+   * answer and a flaky fallback shouldn't turn that into an error.
+   */
+  private async secondOpinion<T>(
+    ordered: readonly string[],
+    won: { data: T; gateway: string },
+    query: string,
+    isEmpty: (data: T) => boolean,
+    signal: AbortSignal,
+  ): Promise<T> {
+    for (const gateway of ordered) {
+      if (gateway === won.gateway || signal.aborted) continue;
+      try {
+        const data = await this.postTo<T>(gateway, query, signal);
+        if (!isEmpty(data)) return data;
+      } catch {
+        /* keep the empty answer we already have */
+      }
+    }
+    return won.data;
+  }
+
+  /**
    * Issue to the first gateway; if it is still silent after `hedgeAfterMs`, add the next one and
    * take the first success. Resolves as soon as any gateway succeeds; rejects only if all fail.
    */
-  private hedge<T>(gateways: readonly string[], query: string, signal: AbortSignal): Promise<T> {
-    return new Promise<T>((resolve, reject) => {
+  private hedge<T>(
+    gateways: readonly string[],
+    query: string,
+    signal: AbortSignal,
+  ): Promise<{ data: T; gateway: string }> {
+    return new Promise((resolve, reject) => {
       let settled = false;
       let failures = 0;
       let launched = 0;
@@ -145,7 +201,7 @@ export class ArweaveGql {
         if (settled) return;
         launched++;
         this.postTo<T>(gateway, query, signal)
-          .then((data) => finish(() => resolve(data)))
+          .then((data) => finish(() => resolve({ data, gateway })))
           .catch((err) => {
             errors.push(err);
             failures++;
@@ -217,6 +273,8 @@ interface TransactionsResult {
   };
 }
 
+const noEdges = (data: TransactionsResult) => data.transactions.edges.length === 0;
+
 /**
  * Walk every page of a query, yielding each page as it arrives so callers can render
  * progressively rather than waiting for the full history.
@@ -229,7 +287,7 @@ export async function* paginate(
   let after = spec.after ?? null;
 
   while (!signal?.aborted) {
-    const data = await gql.query<TransactionsResult>(buildQuery({ ...spec, after }));
+    const data = await gql.query<TransactionsResult>(buildQuery({ ...spec, after }), { isEmpty: noEdges });
     const { edges, pageInfo } = data.transactions;
     if (edges.length) yield edges;
     if (!pageInfo.hasNextPage || !edges.length) return;
@@ -251,7 +309,9 @@ export async function queryAll(gql: ArweaveGql, spec: QuerySpec): Promise<GqlEdg
  * drive one transaction per round-trip. Used to probe a drive's earliest block.
  */
 export async function queryFirst(gql: ArweaveGql, spec: QuerySpec): Promise<GqlEdge | null> {
-  const data = await gql.query<TransactionsResult>(buildQuery({ ...spec, first: 1, after: null }));
+  const data = await gql.query<TransactionsResult>(buildQuery({ ...spec, first: 1, after: null }), {
+    isEmpty: noEdges,
+  });
   return data.transactions.edges[0] ?? null;
 }
 

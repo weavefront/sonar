@@ -14,7 +14,7 @@ import { openDB, type DBSchema, type IDBPDatabase } from 'idb';
 import type { ResolvedEntity } from '../arfs/types';
 
 const DB_NAME = 'swiftdrive';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 
 export interface SyncRecord {
   /** `drives:<owner>` for an owner's drive list, or `drive:<driveId>` for a drive's contents. */
@@ -78,7 +78,7 @@ let opening: Promise<void> | null = null;
 async function beginOpen(): Promise<void> {
   try {
     conn = await openDB<SwiftSchema>(DB_NAME, DB_VERSION, {
-      upgrade(db, oldVersion) {
+      upgrade(db, oldVersion, _newVersion, transaction) {
         if (oldVersion < 1) {
           db.createObjectStore('txBodies', { keyPath: 'txId' });
           const entities = db.createObjectStore('entities', { keyPath: 'metadataTxId' });
@@ -88,6 +88,14 @@ async function beginOpen(): Promise<void> {
         }
         if (oldVersion < 2) {
           db.createObjectStore('localThumbs', { keyPath: 'dataTxId' });
+        }
+        if (oldVersion >= 1 && oldVersion < 3) {
+          // Sync watermarks recorded while arweave.net was the primary GraphQL gateway may sit
+          // above entities its incomplete index never returned, and incremental sync never looks
+          // below a watermark again. Forget them once so every drive re-walks its history.
+          // Bodies and entities stay: they're keyed by immutable tx ID, so the re-walk is only
+          // GraphQL pages, not refetching every file's metadata.
+          transaction.objectStore('syncState').clear();
         }
       },
       // Another tab wants to upgrade or delete: release our handle so it isn't stuck behind us.

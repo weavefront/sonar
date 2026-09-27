@@ -36,7 +36,11 @@ function fetchTags(gql: ArweaveGql, txId: string): Promise<Map<string, string>> 
   if (cached) return cached;
 
   const promise = (async () => {
-    const data = await gql.query<RawTx>(`{transaction(id:${JSON.stringify(txId)}){tags{name value}}}`);
+    // A gateway whose index lacks the tx answers `transaction: null` rather than failing, so ask
+    // the others before concluding it doesn't exist.
+    const data = await gql.query<RawTx>(`{transaction(id:${JSON.stringify(txId)}){tags{name value}}}`, {
+      isEmpty: (d) => !d.transaction,
+    });
     if (!data.transaction) throw new FileDataUnavailableError(`Transaction ${txId} not found.`);
     return tagMap(data.transaction.tags);
   })();

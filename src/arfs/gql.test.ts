@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { ArweaveGql, buildQuery, MAX_PAGE_SIZE, paginate, queryAll, queryFirst } from './gql';
+import { ArweaveGql, buildQuery, DEFAULT_GATEWAYS, MAX_PAGE_SIZE, paginate, queryAll, queryFirst } from './gql';
 
 const okResponse = (data: unknown) =>
   new Response(JSON.stringify({ data }), { status: 200, headers: { 'Content-Type': 'application/json' } });
@@ -162,5 +162,97 @@ describe('paginate', () => {
       signal.aborted = true;
     }
     expect(seen).toHaveLength(1);
+  });
+});
+
+describe('empty results get a second opinion', () => {
+  // An incomplete gateway index answers with a valid, empty result rather than an error, so
+  // failover alone never notices. Seen live: arweave.net returned 0 transactions for a drive
+  // that permagate.io and goldsky both returned 10 for.
+  const byGateway = (answers: Record<string, () => Response>) => {
+    const calls: string[] = [];
+    const fetchImpl = vi.fn(async (url: string | URL | Request) => {
+      const gateway = new URL(String(url)).origin;
+      calls.push(gateway);
+      const answer = answers[gateway];
+      if (!answer) throw new Error(`unexpected gateway ${gateway}`);
+      return answer();
+    }) as unknown as typeof fetch;
+    return { calls, fetchImpl };
+  };
+
+  it('takes the next gateway’s non-empty answer when the primary finds nothing', async () => {
+    const { calls, fetchImpl } = byGateway({
+      'https://incomplete': () => okResponse(page([])),
+      'https://complete': () => okResponse(page(['a', 'b'])),
+    });
+    const gql = new ArweaveGql({ gateways: ['https://incomplete', 'https://complete'], fetchImpl });
+
+    const edges = await queryAll(gql, { tags: [] });
+
+    expect(edges.map((e) => e.node.id)).toEqual(['a', 'b']);
+    expect(calls).toEqual(['https://incomplete', 'https://complete']);
+  });
+
+  it('does the same for queryFirst', async () => {
+    const { fetchImpl } = byGateway({
+      'https://incomplete': () => okResponse(page([])),
+      'https://complete': () => okResponse(page(['first'])),
+    });
+    const gql = new ArweaveGql({ gateways: ['https://incomplete', 'https://complete'], fetchImpl });
+
+    expect((await queryFirst(gql, { tags: [] }))?.node.id).toBe('first');
+  });
+
+  it('never asks a second gateway when the primary found something', async () => {
+    const { calls, fetchImpl } = byGateway({
+      'https://a': () => okResponse(page(['x'])),
+      'https://b': () => okResponse(page(['y'])),
+    });
+    const gql = new ArweaveGql({ gateways: ['https://a', 'https://b'], fetchImpl });
+
+    await queryAll(gql, { tags: [] });
+
+    expect(calls).toEqual(['https://a']);
+  });
+
+  it('accepts empty once every gateway agrees', async () => {
+    const { calls, fetchImpl } = byGateway({
+      'https://a': () => okResponse(page([])),
+      'https://b': () => okResponse(page([])),
+    });
+    const gql = new ArweaveGql({ gateways: ['https://a', 'https://b'], fetchImpl });
+
+    expect(await queryAll(gql, { tags: [] })).toEqual([]);
+    expect(calls).toEqual(['https://a', 'https://b']);
+  });
+
+  it('keeps the empty answer instead of failing when the fallback is down', async () => {
+    const { fetchImpl } = byGateway({
+      'https://a': () => okResponse(page([])),
+      'https://b': () => {
+        throw new Error('down');
+      },
+    });
+    const gql = new ArweaveGql({ gateways: ['https://a', 'https://b'], fetchImpl, retries: 0 });
+
+    await expect(queryAll(gql, { tags: [] })).resolves.toEqual([]);
+  });
+
+  it('leaves plain query() callers without isEmpty untouched', async () => {
+    const { calls, fetchImpl } = byGateway({
+      'https://a': () => okResponse(page([])),
+      'https://b': () => okResponse(page(['y'])),
+    });
+    const gql = new ArweaveGql({ gateways: ['https://a', 'https://b'], fetchImpl });
+
+    const data = await gql.query<ReturnType<typeof page>>('{}');
+
+    expect(data.transactions.edges).toEqual([]);
+    expect(calls).toEqual(['https://a']);
+  });
+
+  it('uses permagate.io as the primary GraphQL gateway, arweave.net as fallback', () => {
+    expect(DEFAULT_GATEWAYS).toEqual(['https://permagate.io', 'https://arweave.net']);
   });
 });
