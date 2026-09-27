@@ -1,0 +1,290 @@
+import type { Messages, PluralMessages } from '../types';
+
+export const fr: Messages = {
+  'common.cancel': 'Annuler',
+  'common.continue': 'Continuer',
+  'common.close': 'Fermer',
+  'common.copied': 'Copié',
+  'common.or': 'ou',
+  'common.creating': 'Création…',
+  'common.confirmCreate': 'Confirmer et créer',
+  'common.decrypting': 'Déchiffrement…',
+  'common.stillConfirming':
+    'Envoyé — confirmation en cours sur Arweave. Cela peut prendre quelques minutes.',
+
+  'app.notFound': 'Page introuvable.',
+  'app.tagline': 'Un explorateur de fichiers rapide pour Arweave',
+  'shell.watching': 'observation',
+  'shell.exit': 'Quitter',
+  'theme.switchToLight': 'Passer au thème clair',
+  'theme.switchToDark': 'Passer au thème sombre',
+  'language.label': 'Langue',
+
+  'modal.estimatingCost': 'Estimation du coût…',
+  'modal.cost': 'Coût : {amount}',
+
+  'connect.newToArweave': 'Nouveau sur Arweave ?',
+  'connect.newToArweaveBody':
+    'Obtenez un portefeuille en une seule étape — sans inscription ni e-mail. Vous recevrez une phrase de récupération et un fichier de clé ; conservez l’un des deux en lieu sûr et vous êtes utilisateur de Sonar.',
+  'connect.createWallet': 'Créer un portefeuille',
+  'connect.alreadyHaveWallet': 'Vous avez déjà un portefeuille ?',
+  'connect.alreadyHaveWalletBody':
+    'Vos fichiers ArDrive apparaissent ici — Sonar lit les mêmes données ArFS.',
+  'connect.connecting': 'Connexion…',
+  'connect.connectExtension': 'Connecter l’extension de portefeuille',
+  'connect.connectWander': 'Connecter Wander',
+  'connect.noExtension': 'Aucune extension détectée. {link}, ou utilisez l’une des options ci-dessous.',
+  'connect.installWander': 'Installer Wander',
+  'connect.useKeyFile': 'Utiliser un fichier de clé',
+  'connect.keyFileNote':
+    'Lecture seule : l’adresse est dérivée dans votre navigateur et la clé est immédiatement supprimée.',
+  'connect.viewAnyAddress': 'Ou consulter une adresse',
+  'connect.addressPlaceholder': 'Adresse Arweave de 43 caractères',
+  'connect.view': 'Afficher',
+  'connect.privateDrivesNote':
+    'Les lecteurs privés fonctionnent aussi — saisissez le mot de passe d’un lecteur pour le parcourir, le prévisualiser et y écrire pendant cette session. Rien n’est jamais enregistré.',
+
+  'driveList.title': 'Vos lecteurs',
+  'driveList.searching': 'recherche…',
+  'driveList.newDrive': 'Nouveau lecteur',
+  'driveList.refresh': 'Actualiser',
+  'driveList.loading': 'Chargement des lecteurs',
+  'driveList.empty': 'Aucun lecteur trouvé',
+  'driveList.emptyBody':
+    'Cette adresse ne possède encore aucun lecteur ArFS, ou ils n’ont pas encore été indexés.',
+  'driveList.createdWithVersion': 'Créé {date} · ArFS {version}',
+  'driveList.privateDrives': 'Lecteurs privés',
+  'driveList.unlockedCreated': 'Déverrouillé pour cette session · créé {date}',
+  'driveList.encryptedCreated': 'Chiffré · créé {date}',
+  'driveList.open': 'Ouvrir',
+  'driveList.unlock': 'Déverrouiller',
+  'driveList.needsSigning': 'Signature requise',
+  'driveList.privateHintCanSign':
+    'Saisissez le mot de passe d’un lecteur pour le déchiffrer et le parcourir pendant cette session — rien n’est jamais enregistré.',
+  'driveList.privateHintWatchOnly':
+    'Connectez un portefeuille capable de signer (pas en lecture seule) pour déverrouiller un lecteur privé.',
+
+  'driveBrowser.privateCantShare': 'Ce lecteur est privé et ne peut pas être partagé.',
+  'driveBrowser.notPartOfShare': 'Ce dossier ne fait pas partie de ce lien de partage.',
+  'driveBrowser.goToParent': 'Aller au dossier parent',
+  'driveBrowser.sharedFolder': 'Dossier partagé',
+  'driveBrowser.drive': 'Lecteur',
+  'driveBrowser.folder': 'Dossier',
+  'driveBrowser.shareFolder': 'Partager ce dossier',
+  'driveBrowser.resync': 'Resynchroniser le lecteur',
+  'driveBrowser.resyncTitle': 'Resynchroniser depuis le réseau',
+  'driveBrowser.search': 'Rechercher dans ce lecteur',
+  'driveBrowser.sortBy': 'Trier par',
+  'driveBrowser.sortName': 'Nom',
+  'driveBrowser.sortSize': 'Taille',
+  'driveBrowser.sortModified': 'Modifié',
+  'driveBrowser.sortAscending': 'Tri croissant',
+  'driveBrowser.sortDescending': 'Tri décroissant',
+  'driveBrowser.readOnlyBanner': 'Dossier partagé · lecture seule',
+  'driveBrowser.noMatches': 'Aucun résultat pour « {query} ».',
+  'driveBrowser.emptyFolder': 'Ce dossier est vide.',
+  'driveBrowser.loadingDrive': 'Chargement de ce lecteur…',
+  'driveBrowser.breadcrumb': 'Fil d’Ariane',
+  'driveBrowser.listView': 'Vue en liste',
+  'driveBrowser.iconView': 'Vue en icônes',
+  'driveBrowser.denseView': 'Vue compacte',
+  'driveBrowser.layout': 'Disposition',
+  'driveBrowser.tilesSmall': 'Petites vignettes',
+  'driveBrowser.tilesMedium': 'Vignettes moyennes',
+  'driveBrowser.tilesLarge': 'Grandes vignettes',
+  'driveBrowser.tileSize': 'Taille des vignettes',
+  'driveBrowser.checkingUpdates': 'recherche de mises à jour',
+  'driveBrowser.syncing': 'synchronisation {resolved}/{found}',
+  'driveBrowser.syncFailed': 'échec de la synchronisation — données en cache affichées',
+  'driveBrowser.orphanedTitle': 'Éléments dont le dossier parent est introuvable',
+  'driveBrowser.showHidden': 'Afficher les éléments masqués',
+  'driveBrowser.hideHidden': 'Masquer les éléments masqués',
+  'driveBrowser.unresolvedMeta': 'Métadonnées non récupérables depuis la passerelle',
+  'driveBrowser.encrypted': 'chiffré',
+  'driveBrowser.folderWithDate': 'Dossier · {date}',
+  'driveBrowser.processingTitle':
+    'Envoyé, mais pas encore confirmé sur Arweave — cela peut prendre quelques minutes.',
+  'driveBrowser.processing': 'Traitement',
+  'driveBrowser.details': 'Détails',
+
+  'details.forFile': 'Détails de {name}',
+  'details.close': 'Fermer les détails',
+  'details.viewExpanded': 'Afficher en grand',
+  'details.preparingDownload': 'Préparation du téléchargement…',
+  'details.download': 'Télécharger',
+  'details.copyLink': 'Copier le lien',
+  'details.copyValue': 'Copier {label}',
+  'details.downloadError': 'Impossible de télécharger ce fichier : {error}',
+  'details.size': 'Taille',
+  'details.type': 'Type',
+  'details.modified': 'Modifié',
+  'details.uploaded': 'Envoyé',
+  'details.path': 'Chemin',
+  'details.fileId': 'ID de fichier',
+  'details.dataTx': 'TX de données',
+  'details.metadataTx': 'TX de métadonnées',
+  'details.block': 'Bloc',
+  'details.arfs': 'ArFS',
+  'details.pinnedFrom': 'Épinglé depuis',
+  'details.versionHistory': 'Historique des versions',
+  'details.current': 'actuelle',
+  'details.encryptedTag': '(chiffré)',
+
+  'rowMenu.moreActions': 'Plus d’actions',
+  'rowMenu.rename': 'Renommer',
+  'rowMenu.move': 'Déplacer',
+  'rowMenu.hide': 'Masquer',
+  'rowMenu.unhide': 'Afficher',
+
+  'hide.hideFileTitle': 'Masquer le fichier',
+  'hide.hideFolderTitle': 'Masquer le dossier',
+  'hide.unhideFileTitle': 'Afficher le fichier',
+  'hide.unhideFolderTitle': 'Afficher le dossier',
+  'hide.willHide':
+    '« {name} » sera masqué lors de la navigation normale (toujours visible avec « Afficher les éléments masqués » activé, et toujours lisible directement depuis sa transaction).',
+  'hide.willUnhide': '« {name} » réapparaîtra lors de la navigation normale.',
+  'hide.saving': 'Enregistrement…',
+  'hide.confirmHide': 'Confirmer et masquer',
+  'hide.confirmUnhide': 'Confirmer et afficher',
+
+  'createDrive.title': 'Nouveau lecteur',
+  'createDrive.name': 'Nom du lecteur',
+  'createDrive.namePlaceholder': 'Mon lecteur',
+  'createDrive.makePrivate': 'Rendre ce lecteur privé',
+  'createDrive.password': 'Mot de passe',
+  'createDrive.confirmPassword': 'Confirmer le mot de passe',
+  'createDrive.passwordMismatch': 'Les mots de passe ne correspondent pas.',
+  'createDrive.noRecovery':
+    'Il n’existe aucune récupération de mot de passe. Si vous le perdez, le contenu de ce lecteur est perdu à jamais — personne, pas même nous, ne pourra le récupérer.',
+
+  'createFolder.title': 'Nouveau dossier',
+  'createFolder.name': 'Nom du dossier',
+  'createFolder.namePlaceholder': 'Nouveau dossier',
+
+  'createWallet.title': 'Créer un portefeuille',
+  'createWallet.generating': 'Création de votre portefeuille…',
+  'createWallet.generatingNote':
+    'Cela peut prendre jusqu’à deux minutes — votre navigateur génère du vrai matériel cryptographique compatible Arweave. Veuillez garder cet onglet ouvert.',
+  'createWallet.error': 'Impossible de créer un portefeuille : {error}',
+  'createWallet.phraseLabel': 'Votre phrase de récupération de 12 mots',
+  'createWallet.copyPhrase': 'Copier la phrase',
+  'createWallet.downloadKeyfile': 'Télécharger le fichier de clé',
+  'createWallet.warning':
+    'C’est l’unique copie. Si vous la perdez, ce portefeuille et tout ce qu’il contient sont perdus à jamais — personne, pas même nous, ne pourra les récupérer. Sonar ne la conserve jamais.',
+  'createWallet.confirmSaved': 'J’ai sauvegardé ma phrase de récupération ou mon fichier de clé',
+  'createWallet.continuing': 'Poursuite…',
+  'createWallet.continueToApp': 'Continuer vers Sonar',
+
+  'rename.fileTitle': 'Renommer le fichier',
+  'rename.folderTitle': 'Renommer le dossier',
+  'rename.renaming': 'Renommage…',
+  'rename.confirm': 'Confirmer et renommer',
+  'move.title': 'Déplacer {name}',
+  'move.destination': 'Dossier de destination',
+  'move.moving': 'Déplacement…',
+  'move.confirm': 'Confirmer et déplacer',
+
+  'password.title': 'Déverrouiller le lecteur privé',
+  'password.prompt': 'Saisissez le mot de passe de {name}.',
+  'password.placeholder': 'Mot de passe du lecteur',
+  'password.wrong': 'Ce mot de passe ne correspond pas à ce lecteur.',
+  'password.technicalDetails': 'Détails techniques',
+  'password.unlocking': 'Déverrouillage…',
+  'password.unlock': 'Déverrouiller',
+
+  'share.title': 'Partager « {name} »',
+  'share.whatToInclude': 'Que partager',
+  'share.thisFolderAndSubfolders': 'Ce dossier et ses sous-dossiers',
+  'share.justThisFolder': 'Uniquement ce dossier',
+  'share.link': 'Lien',
+  'share.copy': 'Copier',
+  'share.noteWithSubfolders':
+    'Toute personne disposant de ce lien peut consulter et télécharger ce dossier et tout son contenu — sans compte ni portefeuille. Ces données sont déjà publiques sur Arweave ; le lien y mène simplement directement.',
+  'share.noteFolderOnly':
+    'Toute personne disposant de ce lien peut consulter et télécharger les fichiers situés directement dans ce dossier — sans compte ni portefeuille. Ces données sont déjà publiques sur Arweave ; le lien y mène simplement directement.',
+  'shareRoute.invalid': 'Ce lien de partage n’est pas valide.',
+
+  'upload.dropToUpload': 'Déposez pour envoyer',
+  'upload.uploadFiles': 'Envoyer des fichiers',
+  'upload.uploadFolder': 'Envoyer un dossier',
+  'upload.newFolder': 'Nouveau dossier',
+  'upload.panelTitle': 'Envois',
+  'upload.clearFinished': 'Effacer les envois terminés',
+  'upload.estimating': 'Estimation…',
+  'upload.uploading': 'Envoi…',
+  'upload.done': 'Terminé',
+  'upload.remove': 'Retirer {name}',
+  'upload.total': 'Total : {amount}',
+
+  'download.selectAll': 'Tout sélectionner',
+  'download.selectItem': 'Sélectionner {name}',
+  'download.panelTitle': 'Téléchargements',
+  'download.collecting': 'Préparation…',
+  'download.fetchingProgress': 'Téléchargement de {completed} sur {total} fichiers…',
+  'download.saving': 'Enregistrement…',
+  'download.done': 'Terminé',
+  'download.partialFailure': '{succeeded} fichier(s) téléchargé(s) sur {total} — les autres ont échoué.',
+
+  'preview.locked': 'Ce lecteur est verrouillé dans cette session.',
+  'preview.noDataTx':
+    'Aucune transaction de données — les métadonnées de ce fichier ne pointent vers aucun contenu.',
+  'preview.decryptError': 'Impossible de déchiffrer ce fichier : {error}',
+  'preview.noInlinePreview': 'Aucun aperçu disponible pour ce type de fichier.',
+  'preview.tooLarge': 'Trop volumineux pour un aperçu ({size}).',
+  'preview.loadError': 'Impossible de charger l’aperçu : {error}',
+  'lightbox.close': 'Fermer la vue agrandie',
+  'lightbox.loadError': 'Impossible de charger cette image : {error}',
+
+  'turbo.balanceUnavailable': 'Solde indisponible',
+  'turbo.loadingBalance': 'Chargement du solde…',
+  'turbo.enableUploads': 'Activer les envois',
+  'turbo.wrongKeyFile':
+    'Ce fichier de clé correspond à une autre adresse — sélectionnez le fichier d’origine pour activer les envois ici.',
+
+  'error.watchOnlySession':
+    'Ceci est une session en lecture seule — connectez un portefeuille capable de signer pour effectuer des modifications.',
+  'error.signingUnavailable':
+    'La signature n’est pas disponible dans cette session. Reconnectez votre portefeuille pour continuer.',
+  'error.extensionGone':
+    'L’extension de portefeuille n’est plus disponible. Reconnectez-vous pour continuer.',
+  'error.keyFileNotLoaded':
+    'Votre fichier de clé n’est pas chargé dans cette session — sélectionnez-le à nouveau pour continuer.',
+  'error.cannotSign':
+    'Cette session ne peut pas signer — connectez un portefeuille qui en est capable.',
+  'error.insufficientCredits':
+    'Crédits Turbo insuffisants pour cet envoi. Rechargez votre solde et réessayez.',
+  'error.signingRejected': 'La signature a été refusée dans votre portefeuille.',
+  'error.noExtension':
+    'Aucune extension de portefeuille Arweave trouvée. Installez Wander pour vous connecter.',
+  'error.badAddress':
+    'Cela ne ressemble pas à une adresse Arweave (43 caractères, A–Z a–z 0–9 _ -).',
+  'error.notKeyFile': 'Ce n’est pas un fichier de clé Arweave : module « n » manquant.',
+  'error.connectToUnlock':
+    'Connectez un portefeuille capable de signer pour déverrouiller un lecteur privé.',
+  'error.decryptionFailed': 'Échec du déchiffrement — vérifiez le mot de passe du lecteur.',
+  'error.sessionCannotSign':
+    'Cette session ne peut pas signer — connectez un portefeuille qui en est capable.',
+  'error.extensionUnavailable': 'L’extension de portefeuille n’est pas disponible.',
+  'error.keyFileNotInSession': 'Le fichier de clé n’est pas chargé dans cette session.',
+  'error.bridgeUnavailable':
+    'Impossible de récupérer les données de signature de ce lecteur depuis le réseau. Il s’agit d’un problème de passerelle ou de réseau, pas d’un mot de passe incorrect — veuillez réessayer dans un instant.',
+  'error.estimateFailed': 'Impossible d’estimer le coût de l’envoi.',
+  'error.readKeyFile': 'Impossible de lire le fichier de clé : {message}',
+  'error.walletCantSign':
+    'Votre portefeuille n’a pas pu signer cette requête ({message}). S’il a supprimé la prise en charge de la signature héritée, une mise à jour du SDK est nécessaire — réessayer n’y changera rien.',
+};
+
+export const frPlurals: PluralMessages = {
+  items: { one: '{count} élément', other: '{count} éléments' },
+  matches: { one: '{count} résultat', other: '{count} résultats' },
+  revisions: { one: '{count} révision', other: '{count} révisions' },
+  orphaned: { one: '{count} orphelin', other: '{count} orphelins' },
+  confirmUpload: {
+    one: 'Confirmer et envoyer {count} fichier',
+    other: 'Confirmer et envoyer {count} fichiers',
+  },
+  confirmDownload: {
+    one: 'Télécharger {count} élément',
+    other: 'Télécharger {count} éléments',
+  },
+};

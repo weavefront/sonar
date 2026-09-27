@@ -1,0 +1,43 @@
+{
+  "name": "sonar",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:live": "SWIFTDRIVE_LIVE=1 vitest run",
+    "test:wallet-gen": "SWIFTDRIVE_WALLET_GEN=1 vitest run",
+    "typecheck": "tsc -b --noEmit"
+  },
+  "dependencies": {
+    "@ardrive/turbo-sdk": "^1.42.0",
+    "@tanstack/react-virtual": "^3.14.9",
+    "bip39": "^3.1.0",
+    "client-zip": "^2.5.0",
+    "human-crypto-keys": "^0.1.4",
+    "idb": "^8.0.3",
+    "libp2p-crypto": "^0.21.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "wouter": "^3.10.0",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.1.2",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.0.5",
+    "fake-indexeddb": "^6.2.5",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.0",
+    "vite-plugin-node-polyfills": "^0.28.0",
+    "vite-plugin-singlefile": "^2.3.3",
+    "vitest": "^4.1.10"
+  }
+}

@@ -1,0 +1,290 @@
+import type { Messages, PluralMessages } from '../types';
+
+export const de: Messages = {
+  'common.cancel': 'Abbrechen',
+  'common.continue': 'Weiter',
+  'common.close': 'Schließen',
+  'common.copied': 'Kopiert',
+  'common.or': 'oder',
+  'common.creating': 'Wird erstellt…',
+  'common.confirmCreate': 'Bestätigen und erstellen',
+  'common.decrypting': 'Wird entschlüsselt…',
+  'common.stillConfirming':
+    'Hochgeladen – wird noch auf Arweave bestätigt. Das kann einige Minuten dauern.',
+
+  'app.notFound': 'Seite nicht gefunden.',
+  'app.tagline': 'Ein schneller Dateibrowser für Arweave',
+  'shell.watching': 'beobachtend',
+  'shell.exit': 'Beenden',
+  'theme.switchToLight': 'Zum hellen Design wechseln',
+  'theme.switchToDark': 'Zum dunklen Design wechseln',
+  'language.label': 'Sprache',
+
+  'modal.estimatingCost': 'Kosten werden geschätzt…',
+  'modal.cost': 'Kosten: {amount}',
+
+  'connect.newToArweave': 'Neu bei Arweave?',
+  'connect.newToArweaveBody':
+    'Wallet in einem Schritt erstellen – ohne Registrierung, ohne E-Mail. Du erhältst eine Wiederherstellungsphrase und eine Schlüsseldatei; bewahre eines von beidem sicher auf und du bist Sonar-Nutzer.',
+  'connect.createWallet': 'Neues Wallet erstellen',
+  'connect.alreadyHaveWallet': 'Schon ein Wallet?',
+  'connect.alreadyHaveWalletBody':
+    'Deine vorhandenen ArDrive-Dateien erscheinen hier – Sonar liest dieselben ArFS-Daten.',
+  'connect.connecting': 'Verbindung wird hergestellt…',
+  'connect.connectExtension': 'Wallet-Erweiterung verbinden',
+  'connect.connectWander': 'Wander verbinden',
+  'connect.noExtension':
+    'Keine Erweiterung erkannt. {link}, oder nutze eine der Optionen unten.',
+  'connect.installWander': 'Wander installieren',
+  'connect.useKeyFile': 'Schlüsseldatei verwenden',
+  'connect.keyFileNote':
+    'Nur lesend: Die Adresse wird in deinem Browser abgeleitet und der Schlüssel sofort verworfen.',
+  'connect.viewAnyAddress': 'Oder eine beliebige Adresse ansehen',
+  'connect.addressPlaceholder': '43-stellige Arweave-Adresse',
+  'connect.view': 'Ansehen',
+  'connect.privateDrivesNote':
+    'Private Laufwerke funktionieren ebenfalls – gib das Passwort eines Laufwerks ein, um es in dieser Sitzung zu durchsuchen, anzusehen und zu beschreiben. Es wird nie etwas gespeichert.',
+
+  'driveList.title': 'Deine Laufwerke',
+  'driveList.searching': 'wird gesucht…',
+  'driveList.newDrive': 'Neues Laufwerk',
+  'driveList.refresh': 'Aktualisieren',
+  'driveList.loading': 'Laufwerke werden geladen',
+  'driveList.empty': 'Keine Laufwerke gefunden',
+  'driveList.emptyBody':
+    'Diese Adresse besitzt noch keine ArFS-Laufwerke, oder sie wurden noch nicht indexiert.',
+  'driveList.createdWithVersion': 'Erstellt {date} · ArFS {version}',
+  'driveList.privateDrives': 'Private Laufwerke',
+  'driveList.unlockedCreated': 'In dieser Sitzung entsperrt · erstellt {date}',
+  'driveList.encryptedCreated': 'Verschlüsselt · erstellt {date}',
+  'driveList.open': 'Öffnen',
+  'driveList.unlock': 'Entsperren',
+  'driveList.needsSigning': 'Signatur erforderlich',
+  'driveList.privateHintCanSign':
+    'Gib das Passwort eines Laufwerks ein, um es für diese Sitzung zu entschlüsseln und zu durchsuchen – es wird nie etwas gespeichert.',
+  'driveList.privateHintWatchOnly':
+    'Verbinde ein Wallet, das signieren kann (nicht nur beobachtend), um ein privates Laufwerk zu entsperren.',
+
+  'driveBrowser.privateCantShare': 'Dieses Laufwerk ist privat und kann nicht geteilt werden.',
+  'driveBrowser.notPartOfShare': 'Dieser Ordner gehört nicht zu diesem geteilten Link.',
+  'driveBrowser.goToParent': 'Zum übergeordneten Ordner',
+  'driveBrowser.sharedFolder': 'Geteilter Ordner',
+  'driveBrowser.drive': 'Laufwerk',
+  'driveBrowser.folder': 'Ordner',
+  'driveBrowser.shareFolder': 'Diesen Ordner teilen',
+  'driveBrowser.resync': 'Laufwerk neu synchronisieren',
+  'driveBrowser.resyncTitle': 'Aus dem Netzwerk neu synchronisieren',
+  'driveBrowser.search': 'In diesem Laufwerk suchen',
+  'driveBrowser.sortBy': 'Sortieren nach',
+  'driveBrowser.sortName': 'Name',
+  'driveBrowser.sortSize': 'Größe',
+  'driveBrowser.sortModified': 'Geändert',
+  'driveBrowser.sortAscending': 'Aufsteigend sortieren',
+  'driveBrowser.sortDescending': 'Absteigend sortieren',
+  'driveBrowser.readOnlyBanner': 'Geteilter Ordner · schreibgeschützt',
+  'driveBrowser.noMatches': 'Keine Treffer für „{query}“.',
+  'driveBrowser.emptyFolder': 'Dieser Ordner ist leer.',
+  'driveBrowser.loadingDrive': 'Dieses Laufwerk wird geladen…',
+  'driveBrowser.breadcrumb': 'Navigationspfad',
+  'driveBrowser.listView': 'Listenansicht',
+  'driveBrowser.iconView': 'Symbolansicht',
+  'driveBrowser.denseView': 'Kompakte Ansicht',
+  'driveBrowser.layout': 'Layout',
+  'driveBrowser.tilesSmall': 'Kleine Kacheln',
+  'driveBrowser.tilesMedium': 'Mittlere Kacheln',
+  'driveBrowser.tilesLarge': 'Große Kacheln',
+  'driveBrowser.tileSize': 'Kachelgröße',
+  'driveBrowser.checkingUpdates': 'wird auf Aktualisierungen geprüft',
+  'driveBrowser.syncing': 'synchronisiert {resolved}/{found}',
+  'driveBrowser.syncFailed': 'Synchronisierung fehlgeschlagen – zwischengespeicherte Daten',
+  'driveBrowser.orphanedTitle': 'Elemente, deren übergeordneter Ordner nicht gefunden wurde',
+  'driveBrowser.showHidden': 'Ausgeblendete anzeigen',
+  'driveBrowser.hideHidden': 'Ausgeblendete verbergen',
+  'driveBrowser.unresolvedMeta': 'Metadaten vom Gateway nicht abrufbar',
+  'driveBrowser.encrypted': 'verschlüsselt',
+  'driveBrowser.folderWithDate': 'Ordner · {date}',
+  'driveBrowser.processingTitle':
+    'Hochgeladen, aber noch nicht auf Arweave bestätigt – das kann einige Minuten dauern.',
+  'driveBrowser.processing': 'Wird verarbeitet',
+  'driveBrowser.details': 'Details',
+
+  'details.forFile': 'Details zu {name}',
+  'details.close': 'Details schließen',
+  'details.viewExpanded': 'Vergrößert ansehen',
+  'details.preparingDownload': 'Download wird vorbereitet…',
+  'details.download': 'Herunterladen',
+  'details.copyLink': 'Link kopieren',
+  'details.copyValue': '{label} kopieren',
+  'details.downloadError': 'Diese Datei konnte nicht heruntergeladen werden: {error}',
+  'details.size': 'Größe',
+  'details.type': 'Typ',
+  'details.modified': 'Geändert',
+  'details.uploaded': 'Hochgeladen',
+  'details.path': 'Pfad',
+  'details.fileId': 'Datei-ID',
+  'details.dataTx': 'Daten-TX',
+  'details.metadataTx': 'Metadaten-TX',
+  'details.block': 'Block',
+  'details.arfs': 'ArFS',
+  'details.pinnedFrom': 'Angeheftet von',
+  'details.versionHistory': 'Versionsverlauf',
+  'details.current': 'aktuell',
+  'details.encryptedTag': '(verschlüsselt)',
+
+  'rowMenu.moreActions': 'Weitere Aktionen',
+  'rowMenu.rename': 'Umbenennen',
+  'rowMenu.move': 'Verschieben',
+  'rowMenu.hide': 'Ausblenden',
+  'rowMenu.unhide': 'Einblenden',
+
+  'hide.hideFileTitle': 'Datei ausblenden',
+  'hide.hideFolderTitle': 'Ordner ausblenden',
+  'hide.unhideFileTitle': 'Datei einblenden',
+  'hide.unhideFolderTitle': 'Ordner einblenden',
+  'hide.willHide':
+    '„{name}“ wird beim normalen Durchsuchen ausgeblendet (weiterhin sichtbar, wenn „Ausgeblendete anzeigen“ aktiv ist, und immer direkt über die Transaktion lesbar).',
+  'hide.willUnhide': '„{name}“ erscheint beim normalen Durchsuchen wieder.',
+  'hide.saving': 'Wird gespeichert…',
+  'hide.confirmHide': 'Bestätigen und ausblenden',
+  'hide.confirmUnhide': 'Bestätigen und einblenden',
+
+  'createDrive.title': 'Neues Laufwerk',
+  'createDrive.name': 'Laufwerksname',
+  'createDrive.namePlaceholder': 'Mein Laufwerk',
+  'createDrive.makePrivate': 'Dieses Laufwerk privat machen',
+  'createDrive.password': 'Passwort',
+  'createDrive.confirmPassword': 'Passwort bestätigen',
+  'createDrive.passwordMismatch': 'Die Passwörter stimmen nicht überein.',
+  'createDrive.noRecovery':
+    'Es gibt keine Passwortwiederherstellung. Wenn du dieses Passwort verlierst, ist der Inhalt dieses Laufwerks für immer verloren – niemand, auch wir nicht, kann ihn zurückholen.',
+
+  'createFolder.title': 'Neuer Ordner',
+  'createFolder.name': 'Ordnername',
+  'createFolder.namePlaceholder': 'Neuer Ordner',
+
+  'createWallet.title': 'Neues Wallet erstellen',
+  'createWallet.generating': 'Dein Wallet wird erstellt…',
+  'createWallet.generatingNote':
+    'Das kann bis zu zwei Minuten dauern – dein Browser erzeugt echtes, Arweave-kompatibles Schlüsselmaterial. Bitte lass diesen Tab geöffnet.',
+  'createWallet.error': 'Wallet konnte nicht erstellt werden: {error}',
+  'createWallet.phraseLabel': 'Deine 12-Wort-Wiederherstellungsphrase',
+  'createWallet.copyPhrase': 'Phrase kopieren',
+  'createWallet.downloadKeyfile': 'Schlüsseldatei herunterladen',
+  'createWallet.warning':
+    'Dies ist die einzige Kopie. Wenn du sie verlierst, sind dieses Wallet und alles darin für immer verloren – niemand, auch wir nicht, kann es zurückholen. Sonar speichert sie nie.',
+  'createWallet.confirmSaved': 'Ich habe meine Wiederherstellungsphrase oder Schlüsseldatei gesichert',
+  'createWallet.continuing': 'Wird fortgesetzt…',
+  'createWallet.continueToApp': 'Weiter zu Sonar',
+
+  'rename.fileTitle': 'Datei umbenennen',
+  'rename.folderTitle': 'Ordner umbenennen',
+  'rename.renaming': 'Wird umbenannt…',
+  'rename.confirm': 'Bestätigen und umbenennen',
+  'move.title': '{name} verschieben',
+  'move.destination': 'Zielordner',
+  'move.moving': 'Wird verschoben…',
+  'move.confirm': 'Bestätigen und verschieben',
+
+  'password.title': 'Privates Laufwerk entsperren',
+  'password.prompt': 'Gib das Passwort für {name} ein.',
+  'password.placeholder': 'Laufwerkspasswort',
+  'password.wrong': 'Dieses Passwort passt nicht zu diesem Laufwerk.',
+  'password.technicalDetails': 'Technische Details',
+  'password.unlocking': 'Wird entsperrt…',
+  'password.unlock': 'Entsperren',
+
+  'share.title': '„{name}“ teilen',
+  'share.whatToInclude': 'Was geteilt wird',
+  'share.thisFolderAndSubfolders': 'Diesen Ordner und seine Unterordner',
+  'share.justThisFolder': 'Nur diesen Ordner',
+  'share.link': 'Link',
+  'share.copy': 'Kopieren',
+  'share.noteWithSubfolders':
+    'Jeder mit diesem Link kann diesen Ordner und alles darin ansehen und herunterladen – ohne Konto oder Wallet. Diese Daten sind auf Arweave bereits öffentlich; der Link führt lediglich direkt dorthin.',
+  'share.noteFolderOnly':
+    'Jeder mit diesem Link kann die Dateien direkt in diesem Ordner ansehen und herunterladen – ohne Konto oder Wallet. Diese Daten sind auf Arweave bereits öffentlich; der Link führt lediglich direkt dorthin.',
+  'shareRoute.invalid': 'Dieser Freigabelink ist ungültig.',
+
+  'upload.dropToUpload': 'Zum Hochladen ablegen',
+  'upload.uploadFiles': 'Dateien hochladen',
+  'upload.uploadFolder': 'Ordner hochladen',
+  'upload.newFolder': 'Neuer Ordner',
+  'upload.panelTitle': 'Uploads',
+  'upload.clearFinished': 'Abgeschlossene entfernen',
+  'upload.estimating': 'Wird geschätzt…',
+  'upload.uploading': 'Wird hochgeladen…',
+  'upload.done': 'Fertig',
+  'upload.remove': '{name} entfernen',
+  'upload.total': 'Gesamt: {amount}',
+
+  'download.selectAll': 'Alle auswählen',
+  'download.selectItem': '{name} auswählen',
+  'download.panelTitle': 'Downloads',
+  'download.collecting': 'Wird vorbereitet…',
+  'download.fetchingProgress': '{completed} von {total} Dateien werden heruntergeladen…',
+  'download.saving': 'Wird gespeichert…',
+  'download.done': 'Fertig',
+  'download.partialFailure': '{succeeded} von {total} Dateien heruntergeladen — die übrigen sind fehlgeschlagen.',
+
+  'preview.locked': 'Dieses Laufwerk ist in dieser Sitzung gesperrt.',
+  'preview.noDataTx':
+    'Keine Datentransaktion – die Metadaten dieser Datei verweisen auf keinen Inhalt.',
+  'preview.decryptError': 'Diese Datei konnte nicht entschlüsselt werden: {error}',
+  'preview.noInlinePreview': 'Für diesen Dateityp gibt es keine Vorschau.',
+  'preview.tooLarge': 'Zu groß für eine Vorschau ({size}).',
+  'preview.loadError': 'Vorschau konnte nicht geladen werden: {error}',
+  'lightbox.close': 'Vergrößerte Ansicht schließen',
+  'lightbox.loadError': 'Dieses Bild konnte nicht geladen werden: {error}',
+
+  'turbo.balanceUnavailable': 'Guthaben nicht verfügbar',
+  'turbo.loadingBalance': 'Guthaben wird geladen…',
+  'turbo.enableUploads': 'Uploads aktivieren',
+  'turbo.wrongKeyFile':
+    'Diese Schlüsseldatei gehört zu einer anderen Adresse – wähle die ursprüngliche aus, um hier Uploads zu aktivieren.',
+
+  'error.watchOnlySession':
+    'Dies ist eine rein beobachtende Sitzung – verbinde ein Wallet, das signieren kann, um Änderungen vorzunehmen.',
+  'error.signingUnavailable':
+    'Signieren ist in dieser Sitzung nicht verfügbar. Verbinde dein Wallet erneut, um fortzufahren.',
+  'error.extensionGone':
+    'Die Wallet-Erweiterung ist nicht mehr verfügbar. Verbinde dich erneut, um fortzufahren.',
+  'error.keyFileNotLoaded':
+    'Deine Schlüsseldatei ist in dieser Sitzung nicht geladen – wähle sie erneut aus, um fortzufahren.',
+  'error.cannotSign': 'Diese Sitzung kann nicht signieren – verbinde ein Wallet, das es kann.',
+  'error.insufficientCredits':
+    'Nicht genügend Turbo-Guthaben für diesen Upload. Lade dein Guthaben auf und versuche es erneut.',
+  'error.signingRejected': 'Das Signieren wurde in deinem Wallet abgelehnt.',
+  'error.noExtension':
+    'Keine Arweave-Wallet-Erweiterung gefunden. Installiere Wander, um dich zu verbinden.',
+  'error.badAddress':
+    'Das sieht nicht nach einer Arweave-Adresse aus (43 Zeichen, A–Z a–z 0–9 _ -).',
+  'error.notKeyFile': 'Keine Arweave-Schlüsseldatei: Modulus „n“ fehlt.',
+  'error.connectToUnlock':
+    'Verbinde ein Wallet, das signieren kann, um ein privates Laufwerk zu entsperren.',
+  'error.decryptionFailed': 'Entschlüsselung fehlgeschlagen – prüfe das Laufwerkspasswort.',
+  'error.sessionCannotSign':
+    'Diese Sitzung kann nicht signieren – verbinde ein Wallet, das es kann.',
+  'error.extensionUnavailable': 'Die Wallet-Erweiterung ist nicht verfügbar.',
+  'error.keyFileNotInSession': 'Die Schlüsseldatei ist in dieser Sitzung nicht geladen.',
+  'error.bridgeUnavailable':
+    'Die Signaturdaten dieses Laufwerks konnten nicht aus dem Netzwerk abgerufen werden. Das ist ein Gateway- oder Netzwerkproblem, kein falsches Passwort – bitte versuche es gleich noch einmal.',
+  'error.estimateFailed': 'Die Upload-Kosten konnten nicht geschätzt werden.',
+  'error.readKeyFile': 'Schlüsseldatei konnte nicht gelesen werden: {message}',
+  'error.walletCantSign':
+    'Dein Wallet konnte diese Anfrage nicht signieren ({message}). Falls dein Wallet die alte Signaturunterstützung entfernt hat, ist dafür ein SDK-Update nötig – wiederholtes Versuchen hilft nicht.',
+};
+
+export const dePlurals: PluralMessages = {
+  items: { one: '{count} Element', other: '{count} Elemente' },
+  matches: { one: '{count} Treffer', other: '{count} Treffer' },
+  revisions: { one: '{count} Version', other: '{count} Versionen' },
+  orphaned: { one: '{count} verwaist', other: '{count} verwaist' },
+  confirmUpload: {
+    one: 'Bestätigen und {count} Datei hochladen',
+    other: 'Bestätigen und {count} Dateien hochladen',
+  },
+  confirmDownload: {
+    one: '{count} Element herunterladen',
+    other: '{count} Elemente herunterladen',
+  },
+};
